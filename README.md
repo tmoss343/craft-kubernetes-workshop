@@ -1,80 +1,42 @@
-# Craft Kubernetes Workshop
+# Augemented Craft Kubernetes Workshop for EngTech's uses
 
 In this workshop you will learn how to:
 
-* Provision a basic Kubernetes cluster from the ground up using [Google Compute Engine](https://cloud.google.com/compute)
-* Provision a complete Kubernetes using [Google Container Engine](https://cloud.google.com/container-engine)
+* Connect to a kubernetes instance and interact with it using kubectl
 * Deploy and manage Docker containers using kubectl
 
-Kubernetes Version: 1.2.2
+Kubernetes Version: 1.6.6
 
-## Google Compute Engine (GCE)
-
-GCE will be used to setup a Kubernetes cluster from the ground up. This workshop will require the ability to create the following resources:
-
-* Virtual Machines
-* Routes
-* Firewall Rules
-
-### Setup GCE and Enable Cloud Shell 
-
-In this section you will create a Google Compute Engine (GCE) account. GCE will allow you to the create VMs, Networks, and Storage volumes required for this workshop. GCE also provides the [Cloud Shell](https://cloud.google.com/shell/docs) computing environment that will be used complete the labs.
-
-#### Labs
-
-
-  * [Create a GCE Account](labs/create-gce-account.md)
-  * [Enable and explore Cloud Shell](labs/enable-and-explore-cloud-shell.md)
+## Access
 
 ### Clone this Repository
 
-Login into your Cloud Shell environment and clone this repository.
-
 ```
-git clone https://github.com/kelseyhightower/craft-kubernetes-workshop.git
+git clone https://github.com/tmoss343/craft-kubernetes-workshop.git
 ```
 
-## Provision a Kubernetes cluster from scratch
+### Entering the cluster
 
-Kubernetes is a distributed system composed of a collection of microservices. Like any system Kubernetes must be installed and configured. In this section you will install Kubernetes from the ground up with the minimal configuration required to get a cluster up and running.
+You can either [install the azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) or you can run the cli from a container, if you choose the container route your volumes will need to be set up correctly.
+```
+docker run -it -p 81:8080 -v C:/dockervolumes/azure:/root/.ssh -v C:/Repo/craft-kubernetes-workshop:/workshop-files azuresdk/azure-cli-python bash
+```
 
-### Core Infrastructure
+After you have gotten your cli running login to azure
+```
+az login
+az account show
+az account set --subscription {subscription-id}
+```
 
-A Kubernetes cluster requires compute resources which can come from VMs or bare-metal machines, a container runtime environment such as Docker, and assumes the Kubernetes network model is in place.
+You will want to connect to the Kubernetes instance after this. You will need to have your ssh keys set up to access the instance. In lastpass there will be an entry for Kubernetes-playground ssh keys that will give you access to the keys. If you are running in a container then you can see from the example command above how we mount the ssh keys to the ssh directory so you have access to the cluster. For windows machines connection to the kube instance you will want to put the ssh keys in your `%USERPROFILE%/.ssh` directory.
 
-#### Labs
+```
+az acs kubernetes install-cli
+az acs kubernetes get-credentials --resource-group=kubernetes-playground --name=kubernetes-playground
+```
 
-  * [Provision Ubuntu on GCE](labs/provisioning-ubuntu-on-gce.md)
-  * [Install and configure Docker](labs/install-and-configure-docker.md)
-  * [Configure Networking](labs/configure-networking.md)
-
-### Provision the Kubernetes Controller
-
-Kubernetes can be broken up into two parts: the controller and worker nodes. The Kubernetes controller is where all cluster configuration is stored and is home to the Kubernetes API, Controller Manager, and Scheduler.
-
-#### Labs
-
-  * [Install and configure etcd](labs/install-and-configure-etcd.md)
-  * [Download a Kubernetes release](labs/download-a-kubernetes-release.md)
-  * [Install and configure the API Server](labs/install-and-configure-apiserver.md)
-  * [Install and configure the Controller Manager](labs/install-and-configure-controller-manager.md)
-  * [Install and configure the Scheduler](labs/install-and-configure-scheduler.md)
-
-### Provision the Worker Nodes
-
-Kubernetes worker nodes are responsible for running containers (inside of pods), service loadbalancing, and reporting status information and metrics for nodes and pods. In this section you will setup the Kubernetes worker nodes and install the following components:
-
-* kubelet
-
-#### Labs
-
-  * [Install and configure the kubelet](labs/install-and-configure-kubelet.md)
-
-## Provision Kubernetes using GKE
-
-Kubernetes can be configured with many options and add-ons, but can be time consuming to bootstrap from the ground up. In this section you will bootstrap Kubernetes using [Google Container Engine](https://cloud.google.com/container-engine) (GKE).
-
-  * [Provision a Kubernetes Cluster with GKE](labs/provision-kubernetes-cluster-with-gke.md)
+At this point you should be able to run `kubectl get all --all-namespaces` and you should see a buch of resources returned and bam you are in. If you have any trouble connecting check you ssh keys are correct and that you have the right version of python installed on your machine.
 
 ## Managing Applications with Kubernetes
 
