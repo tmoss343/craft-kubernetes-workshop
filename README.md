@@ -58,10 +58,16 @@ Kubernetes is all about applications and in this section you will utilize the Ku
   * [Creating and managing deployments](labs/creating-and-managing-deployments.md)
   * [Rolling out updates](labs/rolling-out-updates.md)
 
+## Further tutorials
+
+  * [Published by Kubernetes themselves](https://kubernetes.io/docs/tutorials/)
+  * [Examples included in the Kubernetes source](https://github.com/kubernetes/examples)
+  * [For the adventurer Kelsey Hightower publishes a ton of tutorials to poke around in, most are really really good (this is one of them just augmented a bit!!)](https://github.com/kelseyhightower)
+
 ## Links
 
   * [Kubernetes](http://googlecloudplatform.github.io/kubernetes)
-  * [gcloud Tool Guide](https://cloud.google.com/sdk/gcloud)
+  * [azure cli Tool Guide](https://docs.microsoft.com/en-us/cli/azure/overview?view=azure-cli-latest)
   * [Docker](https://docs.docker.com)
   * [etcd](https://coreos.com/docs/distributed-configuration/getting-started-with-etcd)
   * [nginx](http://nginx.org)
